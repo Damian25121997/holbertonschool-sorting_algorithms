@@ -11,9 +11,9 @@ void insertion_sort_list(listint_t **list)
 	listint_t *front = NULL;
 	listint_t *back = NULL;
 
-	if ((*list)->next == NULL || (*list) == NULL || list == NULL)
+	if (!list || !*list)
 		return;
-	front = *list;
+	front = (*list);
 	while (front != NULL)
 	{
 		back = front->next;
