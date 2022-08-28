@@ -14,7 +14,7 @@ void insertion_sort_list(listint_t **list)
 
 	if (!list || !*list || !(*list)->next)
 		return;
-	for (first = (*list)-> next; first != NULL; first = temp)
+	for (first = (*list)->next; first != NULL; first = temp)
 	{
 		temp = first->next;
 		second = first->prev;
@@ -28,8 +28,9 @@ void insertion_sort_list(listint_t **list)
 
 /**
  * swap - swap two nodes
- * @first: is a node
+ * @list: is a list
  * @second: is a node
+ * @first: is a node
  */
 
 void swap(listint_t **list, listint_t **second, listint_t *first)
@@ -39,7 +40,7 @@ void swap(listint_t **list, listint_t **second, listint_t *first)
 		first->next->prev = *second;
 	first->prev = (*second)->prev;
 	first->next = *second;
-	if((*second)->prev != NULL)
+	if ((*second)->prev != NULL)
 		(*second)->prev->next = first;
 	else
 		*list = first;
