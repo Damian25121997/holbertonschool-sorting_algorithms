@@ -1,6 +1,6 @@
 #include "sort.h"
 
-void swap(listint_t *first, listint_t *second);
+void swap(listint_t **list, listint_t **second, listint_t *first);
 /**
  * insertion_sort_list - insertion sort algorithm
  * @list: is a list
@@ -8,22 +8,21 @@ void swap(listint_t *first, listint_t *second);
 
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *front = NULL;
-	listint_t *back = NULL;
+	listint_t *first = NULL;
+	listint_t *second = NULL;
+	listint_t *temp = NULL;
 
-	if (!list || !*list)
+	if (!list || !*list || !(*list)->next)
 		return;
-	front = (*list);
-	while (front != NULL)
+	for (first = (*list)-> next; first != NULL; first = temp)
 	{
-		back = front->next;
-		while (back != NULL && back->prev != NULL && back->n < back->prev->n)
+		temp = first->next;
+		second = first->prev;
+		while (second != NULL && first->n < second->n)
 		{
-			swap(back, back->prev);
+			swap(list, &second, first);
 			print_list(*list);
-			back = back->prev;
 		}
-		front = front->next;
 	}
 }
 
@@ -33,11 +32,17 @@ void insertion_sort_list(listint_t **list)
  * @second: is a node
  */
 
-void swap(listint_t *first, listint_t *second)
+void swap(listint_t **list, listint_t **second, listint_t *first)
 {
-	int value;
-
-	value = first->n;
-	(*(int *)&(first->n)) = second->n;
-	(*(int *)&(second->n)) = value;
+	(*second)->next = first->next;
+	if (first->next != NULL)
+		first->next->prev = *second;
+	first->prev = (*second)->prev;
+	first->next = *second;
+	if((*second)->prev != NULL)
+		(*second)->prev->next = first;
+	else
+		*list = first;
+	(*second)->prev = first;
+	*second = first->prev;
 }
